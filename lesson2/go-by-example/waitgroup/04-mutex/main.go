@@ -5,13 +5,12 @@ import (
 	"sync"
 )
 
-
 type Container struct {
-	mu sync.Mutex
+	mu       sync.Mutex
 	counters map[string]int
 }
 
-func (c *Container) inc(name string)  {
+func (c *Container) inc(name string) {
 	// 互斥访问counters，实现数据同步
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -20,7 +19,7 @@ func (c *Container) inc(name string)  {
 
 func main() {
 	c := Container{
-		counters: map[string]int{"a":0, "b":0},
+		counters: map[string]int{"a": 0, "b": 0},
 	}
 	var wg sync.WaitGroup
 	// 在循环中递增对name进行计数

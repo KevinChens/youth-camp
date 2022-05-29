@@ -7,12 +7,12 @@ import (
 
 func main() {
 	// 定时器等待2s
-	timer1 := time.NewTimer(2*time.Second)
+	timer1 := time.NewTimer(2 * time.Second)
 	// 一直阻塞，直到C明确发送定时器失效的值
 	<-timer1.C
 	fmt.Println("Timer 1 fired")
 	// 取消定时器
-	timer2 := time.NewTimer(1*time.Second)
+	timer2 := time.NewTimer(1 * time.Second)
 	go func() {
 		<-timer2.C
 		fmt.Println("Timer 2 fired")
@@ -21,5 +21,5 @@ func main() {
 	if stop2 {
 		fmt.Println("Timer 2 stopped")
 	}
-	time.Sleep(2*time.Second)
+	time.Sleep(2 * time.Second)
 }

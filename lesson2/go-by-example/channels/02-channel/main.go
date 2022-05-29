@@ -8,6 +8,6 @@ func main() {
 	// 从goroutine发送数据
 	go func() { messages <- "ping" }()
 	// 从channel接收数据
-	msg := <- messages
+	msg := <-messages
 	fmt.Println(msg)
 }

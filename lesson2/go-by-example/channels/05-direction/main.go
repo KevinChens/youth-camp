@@ -9,7 +9,7 @@ func ping(pings chan<- string, msg string) {
 
 func pong(pings <-chan string, pongs chan<- string) {
 	// pings只读
-	msg := <- pings
+	msg := <-pings
 	// pongs只写
 	pongs <- msg
 }

@@ -10,7 +10,7 @@ func worker(id int, jobs <-chan int, results chan<- int) {
 		fmt.Println("worker", id, "started job", j)
 		time.Sleep(time.Second)
 		fmt.Println("worker", id, "finished job", j)
-		results <- j*2
+		results <- j * 2
 	}
 }
 
@@ -29,6 +29,6 @@ func main() {
 	close(jobs)
 	// 收集任务的返回值，确保所有worker协程都完成
 	for a := 1; a <= numJobs; a++ {
-		<- results
+		<-results
 	}
 }

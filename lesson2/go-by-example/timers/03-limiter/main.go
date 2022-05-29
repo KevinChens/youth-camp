@@ -12,11 +12,11 @@ func main() {
 	}
 	close(requests)
 	// 每200ms接收一个值，是任务速率限制的调度器
-	limiter := time.Tick(200*time.Millisecond)
+	limiter := time.Tick(200 * time.Millisecond)
 
 	for req := range requests {
 		// 每次请求前阻塞limiter，实现了每200ms执行一次请求
-		<- limiter
+		<-limiter
 		fmt.Println("request", req, time.Now())
 	}
 
@@ -29,7 +29,7 @@ func main() {
 	}
 	// 每200ms添加值到burstyLimiter，直到3个的限制
 	go func() {
-		for t := range time.Tick(200*time.Millisecond) {
+		for t := range time.Tick(200 * time.Millisecond) {
 			burstyLimiter <- t
 		}
 	}()
@@ -41,7 +41,7 @@ func main() {
 	close(burstyRequests)
 
 	for req := range burstyRequests {
-		<- burstyLimiter
+		<-burstyLimiter
 		fmt.Println("request", req, time.Now())
 	}
 }

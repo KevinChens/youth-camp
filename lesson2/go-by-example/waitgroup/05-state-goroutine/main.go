@@ -12,16 +12,16 @@ import (
 这能保证数据在并行读取时不会混乱。
 为了对state进行读取或者写入，其它的协程将发送一条数据到目前拥有数据的协程中，然后等待接收对应的回复。
 结构体readOp和writeOp封装了这些请求，并提供了响应协程的方法。
- */
+*/
 
 type readOp struct {
-	key int
+	key  int
 	resp chan int
 }
 
 type writeOp struct {
-	key int
-	val int
+	key  int
+	val  int
 	resp chan bool
 }
 
@@ -37,9 +37,9 @@ func main() {
 		var state = make(map[int]int)
 		for {
 			select {
-			case read := <- reads:
+			case read := <-reads:
 				read.resp <- state[read.key]
-			case write := <- writes:
+			case write := <-writes:
 				state[write.key] = write.val
 				write.resp <- true
 			}
@@ -50,11 +50,11 @@ func main() {
 		go func() {
 			for {
 				read := readOp{
-					key: rand.Intn(5),
+					key:  rand.Intn(5),
 					resp: make(chan int),
 				}
 				reads <- read
-				<- read.resp
+				<-read.resp
 				atomic.AddUint64(&readOps, 1)
 				time.Sleep(time.Millisecond)
 			}
@@ -65,8 +65,8 @@ func main() {
 		go func() {
 			for {
 				write := writeOp{
-					key: rand.Intn(5),
-					val: rand.Intn(100),
+					key:  rand.Intn(5),
+					val:  rand.Intn(100),
 					resp: make(chan bool),
 				}
 				writes <- write

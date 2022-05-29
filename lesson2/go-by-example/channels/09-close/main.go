@@ -9,7 +9,7 @@ func main() {
 	go func() {
 		for {
 			// 循环从jobs接收数据, 接收完毕，more为false
-			j, more := <- jobs
+			j, more := <-jobs
 			if more {
 				fmt.Println("received job", j)
 			} else {
@@ -27,5 +27,5 @@ func main() {
 	close(jobs)
 	fmt.Println("sent all job")
 	// main函数同步等待任务结束
-	<- done
+	<-done
 }
